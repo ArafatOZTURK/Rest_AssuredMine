@@ -2,6 +2,8 @@ import org.junit.jupiter.api.Test;
 
 import io.restassured.http.ContentType;
 
+import javax.swing.plaf.PanelUI;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -84,6 +86,7 @@ public class _01_ApiTest {
         // place dizisinin dizi uzunluğunun 1 olduğunu doğrulayınız.
 
         given()
+                .when()
                 .get("http://api.zippopotam.us/us/90210")
                 .then()
                 .log().all()
@@ -91,7 +94,77 @@ public class _01_ApiTest {
                 .body("places", hasSize(1))
         ;
 
+    }
 
+    @Test
+    public void CombiningTest() {
+
+
+        given()
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("places", hasSize(1))
+                .body("places[0].state", equalTo("California"))
+                .body("places[0].'place name'", equalTo("Beverly Hills"))
+        ;
+    }
+
+    @Test
+    public void pathParamTest(){
+        given()
+                .pathParam("ulke", "us")
+                .pathParam("postaKodu", "90210")
+                .log().uri()
+
+                .when()
+                .get("http://api.zippopotam.us/{ulke}/{postaKodu}")
+
+                .then()
+                .log().body();
+
+    }
+    @Test
+    public void queryParamTest(){
+        //https://gorest.co.in/public/v1/users?page=1
+        given()
+                .param("page", 3)
+                .log().uri()
+
+                .when()
+                .get("https://gorest.co.in/public/v1/users")
+                // veya .get("https://gorest.co.in/public/v1/users?page=1")
+                .then()
+                .log().body()
+                .body("data", hasSize(10))
+
+                ;
+    }
+
+    @Test
+    public void queryParamTest2() {
+        // https://gorest.co.in/public/v1/users?page=3
+        // bu linkteki 1 den 10 kadar sayfaları çağırdığınızda response daki donen page degerlerinin
+        // çağrılan page nosu ile aynı olup olmadığını kontrol ediniz.
+
+        for (int i = 1; i <= 10; i++) {
+
+
+            given()
+                    .param("page", i)
+                    .log().uri()
+
+
+                    .when()
+                    .get("https://gorest.co.in/public/v1/users")
+                    .then()
+                    .body("meta.pagination.page",equalTo(i))
+
+            ;
+
+        }
     }
 
 }
