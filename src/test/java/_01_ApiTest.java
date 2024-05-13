@@ -1,8 +1,7 @@
-import org.junit.jupiter.api.Test;
+
 
 import io.restassured.http.ContentType;
-
-import javax.swing.plaf.PanelUI;
+import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -166,6 +165,7 @@ public class _01_ApiTest {
 
         }
     }
+
 
 }
 
