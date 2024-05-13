@@ -63,6 +63,23 @@ public class _01_ApiTest {
         ;
     }
 
+    @Test
+    public void checkHasItem() {
+        // Soru : "http://api.zippopotam.us/tr/01000"  endpoint in dönen
+        // place dizisinin herhangi bir elemanında  "Dörtağaç Köyü" değerinin
+        // olduğunu doğrulayınız
+
+        given()
+                .get("http://api.zippopotam.us/tr/01000")
+                .then()
+                .log().body()
+                .body("places.'place name'", hasItem("Dörtağaç Köyü"))
+        ;
+    }
+
+
+    }
+
 
 
 
