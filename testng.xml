@@ -3,7 +3,7 @@
 <suite name="All Test Suite">
     <test name="Main Test ">
         <classes>
-            <class name="_01_ApiTest">
+            <class name="_07_GoRestUsersTest">
             </class>
         </classes>
     </test>
